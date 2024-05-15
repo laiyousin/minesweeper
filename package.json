@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "live-server": "^1.2.2",
+    "typescript": "^5.4.5"
+  },
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "main": "dist/app.js",
+  "devDependencies": {},
+  "scripts": {
+    "build": "tsc",
+    "start": "live-server ./dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
