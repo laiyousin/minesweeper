@@ -10,7 +10,7 @@ A web-based minesweeper game implemented using Typescript.
 
 1. Clone the repository:
    ```sh
-   git clone 
+   git clone git@github.com:laiyousin/minesweeper.git
    cd minesweeper
    ```
 
