@@ -164,17 +164,39 @@ function endGame(won: boolean) {
 }
 
 function placeMines(firstROW: number, firstCOL: number) {
-    let placedMines = 0;
-    while (placedMines < numMine) {
-        const row = Math.floor(Math.random() * boardSize);
-        const col = Math.floor(Math.random() * boardSize);
+    // Initialize a flatten 
+    let flatten = [];
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        if (i < numMine) {
+            flatten.push(1)
+        }
+        else {
+            flatten.push(0)
+        }
+    }
+    // Shuffle the flatten array
+    shuffle(flatten, firstROW * boardSize + firstCOL - 1);
 
-        if (!board[row][col].mine && (row != firstROW || col != firstCOL)) {
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        let row = Math.floor(i / boardSize);
+        let col = i % boardSize;
+        if (flatten[i] == 1) {
             board[row][col].mine = true;
-            placedMines += 1;
+            console.log(i, row, col);
         }
     }
     isMinePlaced = true;
+}
+
+function shuffle(flatten: number[], first: number) {
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        let j = Math.floor(Math.random() * flatten.length - 1);
+        [flatten[i], flatten[j]] = [flatten[j], flatten[i]];
+    }
+    // Ensure the first click cell is not a mine
+    if (flatten[first] === 1) {
+        [flatten[first], flatten[flatten.length - 1]] = [flatten[flatten.length - 1], flatten[first]];
+    }
 }
 
 function calculateAdjacentMines() {

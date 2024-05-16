@@ -134,16 +134,36 @@ function endGame(won) {
     }
 }
 function placeMines(firstROW, firstCOL) {
-    let placedMines = 0;
-    while (placedMines < numMine) {
-        const row = Math.floor(Math.random() * boardSize);
-        const col = Math.floor(Math.random() * boardSize);
-        if (!board[row][col].mine && (row != firstROW || col != firstCOL)) {
-            board[row][col].mine = true;
-            placedMines += 1;
+    // Initialize a flatten 
+    let flatten = [];
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        if (i < numMine) {
+            flatten.push(1);
+        }
+        else {
+            flatten.push(0);
         }
     }
+    shuffle(flatten, firstROW * boardSize + firstCOL - 1);
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        let row = Math.floor(i / boardSize);
+        let col = i % boardSize;
+        if (flatten[i] == 1) {
+            board[row][col].mine = true;
+            console.log(i, row, col);
+        }
+    }
+    console.log(board[firstROW][firstCOL].mine);
     isMinePlaced = true;
+}
+function shuffle(flatten, first) {
+    for (let i = 0; i < boardSize * boardSize; i++) {
+        let j = Math.floor(Math.random() * flatten.length - 1);
+        [flatten[i], flatten[j]] = [flatten[j], flatten[i]];
+    }
+    if (flatten[first] === 1) {
+        [flatten[first], flatten[flatten.length - 1]] = [flatten[flatten.length - 1], flatten[first]];
+    }
 }
 function calculateAdjacentMines() {
     for (let row = 0; row < boardSize; row++) {
